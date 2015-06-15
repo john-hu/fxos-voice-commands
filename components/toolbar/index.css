@@ -1,0 +1,12 @@
+#toolbar {
+  padding: 1.5rem;
+}
+#toolbar .community {
+  float: left;
+}
+#toolbar .help {
+  float: right;
+}
+.clearfix {
+  clear: both;
+}

@@ -1,57 +1,21 @@
-
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Vaani</title>
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-  <meta charset="utf-8">
-  <meta name="theme-color" content="#000">
-
-  <link rel="stylesheet" href="style/css/main.css">
-
-</head>
-
-
-<body>
-  <!-- The Views -->
-  <div id="views">
-    <div id="listening-animation" style="display: none">
-      <div id="ringdiv1"
-           style="width: 96%; position: relative; display: block">
-        <div id="r1" class="ring"></div>
-        <div id="r2" class="ring"></div>
-        <div id="r3" class="ring"></div>
-        <div id="r4" class="ring"></div>
-      </div>
-
-      <div id="ringdiv2"
-           style="width: 96%; position: relative; display: block">
-        <div class="sbringr"></div>
-        <div id="r1" class="ringr"></div>
-        <div id="r2r" class="ringr"></div>
-        <div id="r3r" class="ringr"></div>
-        <div id="r4r" class="ringr"></div>
-      </div>
-    </div>
-
-    <div id="status-icon" class="fxos-logo"></div>
-    <div id="status-text"></div>
-    <div id="commands-list">
-      <ul>
-        <li>Call &lt;contact&gt;</li>
-        <li>Text &lt;contact&gt;</li>
-        <li>Check my messages</li>
-        <li>What's my battery level</li>
-        <li>Open my calendar</li>
-        <li>Open my email</li>
-        <li>Open my messages</li>
-      </ul>
-    </div>
-    <div id="microphone-button"></div>
-  </div>
-
-  <!-- Main App Entry Point -->
-  <script src="main.js" type="text/javascript"></script>
-</body>
+  <head>
+    <title>Vaani</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#fff" />
+    <link rel="stylesheet" href="style/main.css" />
+    <link rel="import" href="components/display/index.html" />
+    <link rel="import" href="components/ftu-popup/index.html" />
+    <link rel="import" href="components/toolbar/index.html" />
+    <link rel="import" href="components/talkie/index.html" />
+  </head>
+  <body>
+    <script src="stores/app.js"></script>
+    <script src="actions/first-time-use.js"></script>
+    <script src="actions/toolbar.js"></script>
+    <script src="actions/talkie.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>

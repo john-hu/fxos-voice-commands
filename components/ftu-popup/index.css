@@ -1,0 +1,68 @@
+#ftu-popup {
+  position: relative;
+  margin: 0 1.5rem;
+}
+#ftu-popup .arrow-up {
+  display: none;
+  position: absolute;
+  top: -1.2rem;
+  width: 0;
+  height: 0;
+  border-left: 1.2rem solid transparent;
+  border-right: 1.2rem solid transparent;
+  border-bottom: 1.2rem solid rgba(201, 228, 253, 0.75);
+}
+#ftu-popup .arrow-up-left {
+  display: block;
+  left: 0;
+}
+#ftu-popup .arrow-up-right {
+  display: block;
+  right: 0;
+}
+#ftu-popup .container {
+  padding: 0 1.5rem;
+  border-radius: 2px;
+  background-color: #c9e4fd;
+  background-color: rgba(201, 228, 253, 0.75);
+}
+#ftu-popup .title {
+  color: #4d4d4d;
+  font-size: 1.7rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  padding: 1.5rem 0 0 0;
+}
+#ftu-popup .message {
+  color: #4d4d4d;
+  font-size: 1.5rem;
+  line-height: 1.9rem;
+}
+#ftu-popup .message-only {
+  padding: 1.5rem 0;
+}
+#ftu-popup hr {
+  border: 0;
+  height: 0.1rem;
+  background-color: #000;
+  opacity: 0.2;
+  margin: 0;
+}
+#ftu-popup .btn {
+  color: #00aacc;
+  font-weight: normal;
+  font-style: italic;
+  font-size: 1.7rem;
+  display: block;
+  height: 4rem;
+  width: 100%;
+  text-align: center;
+  background: none;
+  border: none;
+}
+#ftu-popup .step-1,
+#ftu-popup .step-2,
+#ftu-popup .step-3 {
+  display: none;
+}
