@@ -4,7 +4,7 @@
   // first time use stuff
 
   var launchCount = localStorage.getItem('launchCount') || 0;
-  launchCount = parseInt(launchCount);
+  launchCount = parseInt(launchCount, 10);
   launchCount += 1;
   localStorage.setItem('launchCount', launchCount);
   AppStore.state.firstTimeUse.launchCount = launchCount;
@@ -13,7 +13,7 @@
     AppStore.state.firstTimeUse.tour.inFlight = true;
   }
 
-  // instantiate top level components (lifecycle: created)
+  // instantiate top level components
 
   var toolbar, display, ftuPopup, talkie;
 
@@ -27,13 +27,13 @@
     display.querySelector('.content').appendChild(ftuPopup);
   }
 
-  // kick things off (lifecycle: attached)
+  // kick things off
 
   document.body.appendChild(toolbar);
   document.body.appendChild(display);
   document.body.appendChild(talkie);
 
-  // update components when data changes (lifecycle: attributeChanged)
+  // global state change handler
 
   var handleStateChange = function () {
     if (ftuPopup) {
