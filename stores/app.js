@@ -1,8 +1,15 @@
 (function (exports) {
   exports.AppStore = {
-    emitter: document.createElement('div'),
+    _changeEvent: new CustomEvent('change'),
+    _emitter: document.createElement('div'),
     emitChange: function () {
-      this.emitter.dispatchEvent(new CustomEvent('change'));
+      this._emitter.dispatchEvent(this._changeEvent);
+    },
+    addChangeListener: function (func) {
+      this._emitter.addEventListener('change', func);
+    },
+    removeChangeListener: function (func) {
+      this._emitter.removeEventListener('change', func);
     },
     state: {
       toolbar: {

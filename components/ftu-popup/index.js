@@ -31,7 +31,7 @@
           btn.addEventListener('click', this.nextStep.bind(this));
       }
 
-      AppStore.emitter.addEventListener('change', this.render.bind(this));
+      AppStore.addChangeListener(this.render.bind(this));
 
       this.isAttached = true;
 
@@ -45,7 +45,7 @@
           btn.removeEventListener('click', this.nextStep.bind(this));
       }
 
-      AppStore.emitter.removeEventListener('change', this.render.bind(this));
+      AppStore.removeChangeListener(this.render.bind(this));
     },
     attributeChangedCallback: function (attr, oldValue, newValue) {
       console.log('FtuPopup component attribute change', arguments);

@@ -27,7 +27,7 @@
       this.els.community.addEventListener('click', this.toggleCommunity.bind(this));
       this.els.help.addEventListener('click', this.toggleHelp.bind(this));
 
-      AppStore.emitter.addEventListener('change', this.render.bind(this));
+      AppStore.addChangeListener(this.render.bind(this));
 
       this.isAttached = true;
 
@@ -39,7 +39,7 @@
       this.els.community.removeEventListener('click', this.toggleCommunity.bind(this));
       this.els.help.removeEventListener('click', this.toggleHelp.bind(this));
 
-      AppStore.emitter.removeEventListener('change', this.render.bind(this));
+      AppStore.removeChangeListener(this.render.bind(this));
     },
     attributeChangedCallback: function (attr, oldValue, newValue) {
       console.log('Toolbar component attribute change', arguments);

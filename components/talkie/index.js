@@ -26,7 +26,7 @@
 
       this.els.mic.addEventListener('click', this.toggleMic.bind(this));
 
-      AppStore.emitter.addEventListener('change', this.render.bind(this));
+      AppStore.addChangeListener(this.render.bind(this));
 
       this.isAttached = true;
 
@@ -37,7 +37,7 @@
 
       this.els.mic.removeEventListener('click', this.toggleMic.bind(this));
 
-      AppStore.emitter.removeEventListener('change', this.render.bind(this));
+      AppStore.removeChangeListener(this.render.bind(this));
     },
     attributeChangedCallback: function (attr, oldValue, newValue) {
       console.log('Talkie component attribute change', arguments);

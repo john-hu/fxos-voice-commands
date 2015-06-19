@@ -44,5 +44,5 @@
     }
   };
 
-  AppStore.emitter.addEventListener('change', handleStateChange);
+  AppStore.addChangeListener(handleStateChange);
 })();
