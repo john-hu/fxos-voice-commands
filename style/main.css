@@ -11,16 +11,3 @@ body {
 * { /* TODO: Remove before shipping */
   font-family: 'Fira Sans';
 }
-
-
-#viewer {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  height: 24.3rem;
-}
-
-
-#view-central {
-  display: none;
-}

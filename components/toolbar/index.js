@@ -1,4 +1,4 @@
-/* global AppStore */
+/* global AppStore, DisplayActions, ToolbarActions */
 
 (function () {
   var ownerDocument = document.currentScript.ownerDocument;
@@ -70,6 +70,8 @@
 
       var isSelected = AppStore.state.toolbar.activeItem === 'community';
       ToolbarActions.setActiveItem(isSelected ? 'none': 'community');
+
+      DisplayActions.changeViews('vaani-community');
     },
     toggleHelp: function () {
       if (AppStore.state.firstTimeUse.tour.inFlight) {
@@ -78,6 +80,8 @@
 
       var isSelected = AppStore.state.toolbar.activeItem === 'help';
       ToolbarActions.setActiveItem(isSelected ? 'none': 'help');
+
+      DisplayActions.changeViews('vaani-help');
     }
   });
 

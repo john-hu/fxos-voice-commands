@@ -1,0 +1,25 @@
+{
+  "name": "fxos-voice-commands",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install",
+    "server": "http-server -c-1 ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedireza/fxos-voice-commands.git"
+  },
+  "author": "Reza Akhavan <reza@akhavan.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedireza/fxos-voice-commands/issues"
+  },
+  "homepage": "https://github.com/jedireza/fxos-voice-commands#readme",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "http-server": "^0.8.0"
+  }
+}

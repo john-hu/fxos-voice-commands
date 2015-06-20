@@ -1,0 +1,16 @@
+{
+  "name": "fxos-voice-commands",
+  "main": "index.html",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jedireza/fxos-voice-commands",
+  "authors": [
+    "Reza Akhavan <reza@akhavan.me>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "dependencies": {
+     "gaia-dialog": "gaia-components/gaia-dialog#0.1.0"
+  },
+  "license": "MIT"
+}

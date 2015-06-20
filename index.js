@@ -17,9 +17,9 @@
 
   var toolbar, display, ftuPopup, talkie;
 
-  toolbar = document.createElement('vaani-toolbar');
   display = document.createElement('vaani-display');
   talkie = document.createElement('vaani-talkie');
+  toolbar = document.createElement('vaani-toolbar');
 
   if (AppStore.state.firstTimeUse.tour.inFlight) {
     ftuPopup = document.createElement('vaani-ftu-popup');
@@ -30,8 +30,8 @@
   // kick things off
 
   document.body.appendChild(toolbar);
-  document.body.appendChild(display);
   document.body.appendChild(talkie);
+  document.body.appendChild(display);
 
   // global state change handler
 

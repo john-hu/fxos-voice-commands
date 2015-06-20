@@ -12,6 +12,9 @@
       this._emitter.removeEventListener('change', func);
     },
     state: {
+      display: {
+        activeView: undefined
+      },
       toolbar: {
         activeItem: 'none'
       },
