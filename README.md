@@ -8,12 +8,18 @@ $ cd fxos-voice-commands
 $ npm install
 ```
 
-## Local dev server
-
-Creates a simple http server to serve the app during development.
+## Build
 
 ```bash
-$ npm run server
+$ npm run build
+```
+
+## Local dev server
+
+To serve the `./build` directory locally run:
+
+```bash
+$ npm start
 ```
 
 Now open http://localhost:8080/ in your navigator of choice.
