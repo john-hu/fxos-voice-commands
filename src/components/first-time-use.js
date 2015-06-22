@@ -3,7 +3,7 @@ import AppStore from '../stores/app';
 import FirstTimeUseActions from '../actions/first-time-use';
 
 
-var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
+var FirstTimeUse = GaiaComponent.register('vaani-first-time-use', {
   created: function () {
     this.setupShadowRoot();
 
@@ -60,7 +60,7 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
     FirstTimeUseActions.advanceTour();
   },
   template: `
-    <div id="ftu-popup">
+    <div id="first-time-use">
       <div class="arrow-up"></div>
       <div class="container">
         <div class="step-1">
@@ -86,11 +86,11 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
     </div>
 
     <style>
-      #ftu-popup {
+      #first-time-use {
         position: relative;
         margin: 0 1.5rem;
       }
-      #ftu-popup .arrow-up {
+      #first-time-use .arrow-up {
         display: none;
         position: absolute;
         top: -1.2rem;
@@ -100,21 +100,21 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
         border-right: 1.2rem solid transparent;
         border-bottom: 1.2rem solid rgba(201, 228, 253, 0.75);
       }
-      #ftu-popup .arrow-up-left {
+      #first-time-use .arrow-up-left {
         display: block;
         left: 0;
       }
-      #ftu-popup .arrow-up-right {
+      #first-time-use .arrow-up-right {
         display: block;
         right: 0;
       }
-      #ftu-popup .container {
+      #first-time-use .container {
         padding: 0 1.5rem;
         border-radius: 2px;
         background-color: #c9e4fd;
         background-color: rgba(201, 228, 253, 0.75);
       }
-      #ftu-popup .title {
+      #first-time-use .title {
         color: #4d4d4d;
         font-size: 1.7rem;
         font-weight: 600;
@@ -122,22 +122,22 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
         margin: 0;
         padding: 1.5rem 0 0 0;
       }
-      #ftu-popup .message {
+      #first-time-use .message {
         color: #4d4d4d;
         font-size: 1.5rem;
         line-height: 1.9rem;
       }
-      #ftu-popup .message-only {
+      #first-time-use .message-only {
         padding: 1.5rem 0;
       }
-      #ftu-popup hr {
+      #first-time-use hr {
         border: 0;
         height: 0.1rem;
         background-color: #000;
         opacity: 0.2;
         margin: 0;
       }
-      #ftu-popup .btn {
+      #first-time-use .btn {
         color: #00aacc;
         font-weight: normal;
         font-style: italic;
@@ -149,9 +149,9 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
         background: none;
         border: none;
       }
-      #ftu-popup .step-1,
-      #ftu-popup .step-2,
-      #ftu-popup .step-3 {
+      #first-time-use .step-1,
+      #first-time-use .step-2,
+      #first-time-use .step-3 {
         display: none;
       }
     </style>
@@ -159,4 +159,4 @@ var FtuPopup = GaiaComponent.register('vaani-ftu-popup', {
 });
 
 
-module.exports = FtuPopup;
+module.exports = FirstTimeUse;

@@ -4,15 +4,15 @@ import AppStore from '../stores/app';
 var DisplayActions = {
   changeViews: function (componentName) {
     var display = document.querySelector('vaani-display');
+    var newView;
 
     if (componentName) {
-      var newView = document.createElement(componentName);
-
-      display.changeViews(newView);
-
-      AppStore.state.display.activeView = newView;
+      newView = document.createElement(componentName);
     }
 
+    display.changeViews(newView);
+
+    AppStore.state.display.activeView = newView;
     AppStore.emitChange();
   }
 };

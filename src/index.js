@@ -3,7 +3,7 @@ import AppStore from './stores/app';
 import DisplayActions from './actions/display';
 import './components/community';
 import './components/display';
-import './components/ftu-popup';
+import './components/first-time-use';
 import './components/help';
 import './components/talkie';
 import './components/toolbar';
@@ -39,7 +39,7 @@ document.body.appendChild(talkie);
 document.body.appendChild(display);
 
 if (AppStore.state.firstTimeUse.tour.inFlight) {
-  DisplayActions.changeViews('vaani-ftu-popup');
+  DisplayActions.changeViews('vaani-first-time-use');
 }
 
 /*
@@ -49,9 +49,7 @@ if (AppStore.state.firstTimeUse.tour.inFlight) {
 var handleStateChange = function () {
   if (AppStore.state.firstTimeUse.tour.inFlight) {
     if (AppStore.state.firstTimeUse.tour.current === 0) {
-      DisplayActions.changeViews('vaani-ftu-popup');
-      display.shadowRoot.querySelector('.content').removeChild(ftuPopup);
-      ftuPopup = null;
+      DisplayActions.changeViews(null);
     }
   }
 };
