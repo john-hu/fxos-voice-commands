@@ -6,8 +6,9 @@
   "scripts": {
     "postinstall": "napa gaia-components/gaia-theme gaia-components/gaia-text-input",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -c-1 build",
-    "build": "rm -rf build && mkdir -p build && browserify src/index.js -t babelify -o build/index.js && cat node_modules/gaia-theme/gaia-theme.css src/index.css > build/index.css  && cp src/index.html build && cp src/manifest.webapp build && cp src/settings.json build && cp src/user.js build && cp -R src/style build"
+    "start": "http-server -p 8000 -c-1 build & watch 'npm run build' ./src",
+    "build": "mkdir -p build && browserify src/index.js -t babelify -o build/index.js && cat node_modules/gaia-theme/gaia-theme.css src/index.css > build/index.css  && cp src/index.html build && cp src/manifest.webapp build && cp src/settings.json build && cp src/user.js build && cp -R src/style build",
+    "clean": "rm -rf build"
   },
   "repository": {
     "type": "git",
@@ -24,9 +25,10 @@
     "babelify": "^6.1.2",
     "bower": "^1.4.1",
     "browserify": "^10.2.4",
-    "gaia-component": "git+https://github.com/gaia-components/gaia-component.git",
-    "gaia-dialog": "git+https://github.com/gaia-components/gaia-dialog.git",
+    "gaia-component": "gaia-components/gaia-component",
+    "gaia-dialog": "gaia-components/gaia-dialog",
     "http-server": "^0.8.0",
-    "napa": "^1.2.0"
+    "napa": "^1.2.0",
+    "watch": "^0.16.0"
   }
 }
