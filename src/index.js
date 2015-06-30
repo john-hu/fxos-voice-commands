@@ -18,10 +18,6 @@ launchCount += 1;
 localStorage.setItem('launchCount', launchCount);
 AppStore.state.firstTimeUse.launchCount = launchCount;
 
-if (launchCount <= 2) {
-  AppStore.state.firstTimeUse.tour.inFlight = true;
-}
-
 /*
  * instantiate top level components
  */
@@ -38,7 +34,8 @@ document.body.appendChild(toolbar);
 document.body.appendChild(talkie);
 document.body.appendChild(display);
 
-if (AppStore.state.firstTimeUse.tour.inFlight) {
+if (launchCount <= 2) {
+  AppStore.state.firstTimeUse.tour.inFlight = true;
   DisplayActions.changeViews('vaani-first-time-use');
 }
 
