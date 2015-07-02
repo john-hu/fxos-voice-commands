@@ -63,4 +63,6 @@ To serve the `./build` directory locally run:
 $ npm start
 ```
 
-Now open https://localhost:8080/ in your navigator of choice.
+Now open https://localhost:8080/ in your navigator of choice. As well as
+serving the app, this will also watch for changes and automatically re-build
+the app.
