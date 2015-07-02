@@ -22,12 +22,18 @@ class StandingByActions {
         public <simple> =
           open phone |
           open messages |
-          open contacts |
           open email |
+          open contacts |
           open browser |
           open gallery |
           open camera |
-          open marketplace
+          open marketplace |
+          open clock |
+          open settings |
+          open calendar |
+          open music |
+          open video |
+          open calculator
         ;
       `,
       interpreter: this._interpreter.bind(this),
@@ -93,22 +99,22 @@ class StandingByActions {
         appToLaunch = 'marketplace';
       }
       else if (command.indexOf('clock') > -1) {
-        appToLaunch = 'clock'; // not working, hearing contacts
+        appToLaunch = 'clock';
       }
       else if (command.indexOf('settings') > -1) {
-        appToLaunch = 'settings'; // not working, hearing messages
+        appToLaunch = 'settings';
       }
       else if (command.indexOf('calendar') > -1) {
-        appToLaunch = 'calendar'; // not working, hearing gallery
+        appToLaunch = 'calendar';
       }
       else if (command.indexOf('music') > -1) {
-        appToLaunch = 'music'; // not working, hearing messages
+        appToLaunch = 'music';
       }
       else if (command.indexOf('video') > -1) {
-        appToLaunch = 'video'; // not working, hearing email or messages
+        appToLaunch = 'video';
       }
       else if (command.indexOf('calculator') > -1) {
-        appToLaunch = 'calculator'; // not working, hearing camera
+        appToLaunch = 'calculator';
       }
       else {
         debug('Unable to interpret open command.', command);
