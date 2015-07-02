@@ -9,7 +9,9 @@ class Vaani {
    * @param options.interpreter {Function} The function to call after
    *        speech recognition is attempted
    * @param options.onSay {Function} The function to call when say executes
+   * @param options.onSayDone {Function} The function to call when say finishes
    * @param options.onListen {Function} The function to call when listen executes
+   * @param options.onListenDone {Function} The function to call when listen finishes
    */
   constructor (options = {}) {
     if (!options.hasOwnProperty('grammar')) {
@@ -28,7 +30,9 @@ class Vaani {
     this._synthesisWasCanceled = false;
     this._interpreter = options.interpreter;
     this._onSay = options.onSay;
+    this._onSayDone = options.onSayDone;
     this._onListen = options.onListen;
+    this._onListenDone = options.onListenDone;
     this._interpretingCommand = false;
     this._audioEl = undefined;
   }
@@ -68,6 +72,10 @@ class Vaani {
         this._audioEl.addEventListener('ended', () => {
           this.isSpeaking = false;
 
+          if (this._onSayDone) {
+            this._onSayDone(sentence, waitForResponse)
+          }
+
           if (waitForResponse) {
             this.listen();
           }
@@ -81,6 +89,10 @@ class Vaani {
         utterance.lang = lang;
         utterance.addEventListener('end', () => {
           this.isSpeaking = false;
+
+          if (this._onSayDone) {
+            this._onSayDone(sentence, waitForResponse)
+          }
 
           if (waitForResponse && !this._synthesisWasCanceled) {
             this.listen();
@@ -110,6 +122,10 @@ class Vaani {
     this.speechRecognition.onresult = (event) => {
       this.isListening = false;
       this._interpretingCommand = false;
+
+      if (this._onListenDone) {
+        this._onListenDone()
+      }
 
       var transcript = '';
       var partialTranscript = '';

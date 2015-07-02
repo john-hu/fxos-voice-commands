@@ -44,6 +44,7 @@ var StandingBy = GaiaComponent.register('vaani-standing-by', {
         width: 100%;
         font-size: 2.1rem;
         text-align: center;
+        margin: 0 3rem;
       }
     </style>
   `

@@ -1,6 +1,7 @@
 import Debug from 'debug';
 import AppStore from '../stores/app';
 import Vaani from '../lib/vaani';
+import AppLauncher from '../lib/app-launcher';
 import TalkieActions from './talkie';
 
 
@@ -19,19 +20,21 @@ class StandingByActions {
         #JSGF v1.0;
         grammar fxosVoiceCommands;
         public <simple> =
-          call home |
-          dial home |
-          check my messages |
-          text david |
-          whats my battery level |
-          open my calendar |
-          open my email |
-          open my messages
+          open phone |
+          open messages |
+          open contacts |
+          open email |
+          open browser |
+          open gallery |
+          open camera |
+          open marketplace
         ;
       `,
-      interpreter: this._interpreter,
-      onSay: this._onSay,
-      onListen: this._onListen
+      interpreter: this._interpreter.bind(this),
+      onSay: this._onSay.bind(this),
+      onSayDone: this._onSayDone.bind(this),
+      onListen: this._onListen.bind(this),
+      onListenDone: this._onListenDone.bind(this)
     });
   }
 
@@ -55,17 +58,79 @@ class StandingByActions {
     TalkieActions.setActiveAnimation('none');
 
     if (err) {
-      console.log('error: ' + err);
+      debug('_interpreter error', err);
+
+      this.vaani.say('I didn\'t understand, say again.', true);
+
+      return;
     }
 
-    console.log('interpret: ' + command);
+    if (command.indexOf('open') > -1) {
+      var appToLaunch;
+
+      if (command.indexOf('phone') > -1) {
+        appToLaunch = 'phone'; // not working, why?
+      }
+      else if (command.indexOf('messages') > -1) {
+        appToLaunch = 'messages';
+      }
+      else if (command.indexOf('email') > -1) {
+        appToLaunch = 'e-mail';
+      }
+      else if (command.indexOf('contacts') > -1) {
+        appToLaunch = 'contacts'; // not working, why?
+      }
+      else if (command.indexOf('browser') > -1) {
+        appToLaunch = 'browser';
+      }
+      else if (command.indexOf('gallery') > -1) {
+        appToLaunch = 'gallery';
+      }
+      else if (command.indexOf('camera') > -1) {
+        appToLaunch = 'camera';
+      }
+      else if (command.indexOf('marketplace') > -1) {
+        appToLaunch = 'marketplace';
+      }
+      else if (command.indexOf('clock') > -1) {
+        appToLaunch = 'clock'; // not working, hearing contacts
+      }
+      else if (command.indexOf('settings') > -1) {
+        appToLaunch = 'settings'; // not working, hearing messages
+      }
+      else if (command.indexOf('calendar') > -1) {
+        appToLaunch = 'calendar'; // not working, hearing gallery
+      }
+      else if (command.indexOf('music') > -1) {
+        appToLaunch = 'music'; // not working, hearing messages
+      }
+      else if (command.indexOf('video') > -1) {
+        appToLaunch = 'video'; // not working, hearing email or messages
+      }
+      else if (command.indexOf('calculator') > -1) {
+        appToLaunch = 'calculator'; // not working, hearing camera
+      }
+      else {
+        debug('Unable to interpret open command.', command);
+
+        this.vaani.say('I could not find that app.');
+      }
+
+      AppLauncher.launch(appToLaunch, (err) => {
+        if (err) {
+          debug('AppLauncher error', err);
+
+          this.vaani.say('I was not able to open ' + appToLaunch + '.');
+        }
+      });
+    }
   }
 
   /**
    * A hook that's fired when Vaani's say function is called
    * @param sentence {String} The sentence to be spoken
-   * @param waitForResponse {Boolean} Indicates we will wait for a
-   *        response after the sentence has been said
+   * @param waitForResponse {Boolean} Indicates if we will wait
+   *        for a response after the sentence has been said
    */
   static _onSay (sentence, waitForResponse) {
     debug('_onSay', arguments);
@@ -77,6 +142,18 @@ class StandingByActions {
   }
 
   /**
+   * A hook that's fired when Vaani's say function is finished
+   * @param sentence {String} The sentence to be spoken
+   * @param waitForResponse {Boolean} Indicates if we will wait
+   *        for a response after the sentence has been said
+   */
+  static _onSayDone (sentence, waitForResponse) {
+    if (!waitForResponse) {
+      TalkieActions.setActiveAnimation('none');
+    }
+  }
+
+  /**
    * A hook that's fired when Vaani's listen function is called
    */
   static _onListen () {
@@ -85,6 +162,12 @@ class StandingByActions {
     AppStore.state.standingBy.text = '';
 
     TalkieActions.setActiveAnimation('receiving');
+  }
+
+  /**
+   * A hook that's fired when Vaani's listen function is finished
+   */
+  static _onListenDone () {
   }
 
   /**
