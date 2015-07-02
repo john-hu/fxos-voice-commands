@@ -1,8 +1,18 @@
+import Debug from 'debug';
 import AppStore from '../stores/app';
 
 
-var DisplayActions = {
-  changeViews: function (componentName) {
+let debug = Debug('DisplayActions');
+
+
+class DisplayActions {
+  /**
+   * Changes the current view
+   * @param {String} (optional) The name of the comoponent to create
+   */
+  static changeViews (componentName) {
+    debug('changeViews', arguments);
+
     var display = document.querySelector('vaani-display');
     var newView;
 
@@ -15,7 +25,7 @@ var DisplayActions = {
     AppStore.state.display.activeView = newView;
     AppStore.emitChange();
   }
-};
+}
 
 
-module.exports = DisplayActions;
+export default DisplayActions;

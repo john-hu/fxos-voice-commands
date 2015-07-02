@@ -28,9 +28,12 @@ var AppStore = {
         current: 1,
         total: 3
       }
+    },
+    standingBy: {
+      text: ''
     }
   }
 };
 
 
-module.exports = AppStore;
+export default AppStore;

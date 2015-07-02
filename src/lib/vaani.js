@@ -7,7 +7,9 @@ class Vaani {
    * @param options.grammar {String} The JSGF 1.0 grammar list to be
    *        used by the speech recognition library
    * @param options.interpreter {Function} The function to call after
-   *        speech recogition is attempted
+   *        speech recognition is attempted
+   * @param options.onSay {Function} The function to call when say executes
+   * @param options.onListen {Function} The function to call when listen executes
    */
   constructor (options = {}) {
     if (!options.hasOwnProperty('grammar')) {
@@ -21,8 +23,14 @@ class Vaani {
     this.speechGrammarList = new SpeechGrammarList();
     this.speechGrammarList.addFromString(options.grammar, 1);
     this.speechRecognition = new SpeechRecognition();
+    this.isSpeaking = false;
+    this.isListening = false;
+    this._synthesisWasCanceled = false;
     this._interpreter = options.interpreter;
+    this._onSay = options.onSay;
+    this._onListen = options.onListen;
     this._interpretingCommand = false;
+    this._audioEl = undefined;
   }
 
   /**
@@ -32,24 +40,34 @@ class Vaani {
    *        response after the sentence has been said
    */
   say (sentence, waitForResponse) {
+    if (this._onSay) {
+      this._onSay(sentence, waitForResponse)
+    }
+
     if (waitForResponse) {
       this._interpretingCommand = true;
     }
+
+    this.isSpeaking = true;
+    this._synthesisWasCanceled = false;
 
     var lang = 'en'; // Aus: should be detected based on system language
     var sayItProud;
 
     // Reza: This is a temporary solution to help dev in the browser
-    if (!navigator.userAgent.indexOf('Mobile') > -1) {
+    if (navigator.userAgent.indexOf('Mobile') === -1) {
       sayItProud = () => {
-        var audio = document.createElement('audio');
+        this._audioEl = document.createElement('audio');
+
         var url = 'http://speechan.cloudapp.net/weblayer/synth.ashx';
             url += '?lng=' + lang;
             url += '&msg=' + sentence;
 
-        audio.src = url;
-        audio.setAttribute('autoplay', 'true');
-        audio.addEventListener('ended', () => {
+        this._audioEl.src = url;
+        this._audioEl.setAttribute('autoplay', 'true');
+        this._audioEl.addEventListener('ended', () => {
+          this.isSpeaking = false;
+
           if (waitForResponse) {
             this.listen();
           }
@@ -62,7 +80,9 @@ class Vaani {
 
         utterance.lang = lang;
         utterance.addEventListener('end', () => {
-          if (waitForResponse) {
+          this.isSpeaking = false;
+
+          if (waitForResponse && !this._synthesisWasCanceled) {
             this.listen();
           }
         });
@@ -72,16 +92,23 @@ class Vaani {
     }
 
     // Aus: Wait an extra 100ms for the audio output to stabilize off
-    setTimeout(sayItProud.bind(this), 100);
+    setTimeout(sayItProud, 100);
   }
 
   /**
    * Listen for a response from the user
    */
   listen () {
+    if (this._onListen) {
+      this._onListen()
+    }
+
+    this.isListening = true;
+
     this.speechRecognition.start();
 
     this.speechRecognition.onresult = (event) => {
+      this.isListening = false;
       this._interpretingCommand = false;
 
       var transcript = '';
@@ -106,7 +133,6 @@ class Vaani {
           // transcript. We should ask the user to repeat what they
           // want when all we have is a partial transcript with 'low'
           // confidence.
-
           confidence = event.results[i][0].confidence;
         }
       }
@@ -125,6 +151,28 @@ class Vaani {
         this._interpreter(null, usableTranscript);
       }
     };
+  }
+
+  /**
+   * Cancels speech synthesis and/or recognition
+   */
+  cancel () {
+    if (this.isListening) {
+      this.speechRecognition.abort();
+    }
+
+    if (this.isSpeaking) {
+      if (this._audioEl) {
+        this._audioEl.pause();
+      }
+      else {
+        this._synthesisWasCanceled = true;
+        speechSynthesis.cancel();
+      }
+    }
+
+    this.isSpeaking = false;
+    this.isListening = false;
   }
 }
 

@@ -12,8 +12,20 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
     this.els.sending = this.shadowRoot.querySelector('.sending');
     this.els.receiving = this.shadowRoot.querySelector('.receiving');
     this.els.idlePopup = this.shadowRoot.querySelector('.idle-popup');
+
+    // setup our receiving dots
+    var rings = 5, dots = 24;
+    for (var i = 1; i <= rings ; i++) {
+      for (var j = 1; j <= dots ; j++) {
+        var dot = document.createElement('div');
+        dot.className = 'dot ring-' + i + ' dot-' + j;
+
+        this.els.receiving.appendChild(dot);
+      }
+    }
   },
   attached: function () {
+    this.els.mic.addEventListener('touchend', this.tapMic.bind(this));
     this.els.mic.addEventListener('click', this.toggleMic.bind(this));
 
     AppStore.addChangeListener(this.render.bind(this));
@@ -21,6 +33,7 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
     this.render();
   },
   detached: function () {
+    this.els.mic.removeEventListener('touchend', this.tapMic.bind(this));
     this.els.mic.removeEventListener('click', this.toggleMic.bind(this));
 
     AppStore.removeChangeListener(this.render.bind(this));
@@ -46,13 +59,16 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
       this.els.receiving.style.display = 'none';
     }
   },
+  tapMic: function (e) {
+    e.preventDefault();
+    e.target.click();
+  },
   toggleMic: function () {
     if (AppStore.state.firstTimeUse.tour.inFlight) {
       return;
     }
 
-    var isSending = AppStore.state.talkie.activeAnimation === 'sending';
-    TalkieActions.setActiveAnimation(isSending ? 'none': 'sending');
+    TalkieActions.toggleMic();
   },
   template: `
     <div id="talkie">
@@ -65,7 +81,7 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
         </div>
 
         <div class="receiving">
-          <div class="dot dot-1"></div>
+          <!--dots go here, see create method above-->
         </div>
 
         <div class="sending">
@@ -161,8 +177,167 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
         animation-delay: 1500ms;
       }
       #talkie .receiving {
-        display: none;
+        /* display: none; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 6.8rem;
+        width: 6.8rem;
       }
+      #talkie .receiving .dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 0.7rem;
+        width: 0.7rem;
+        border-radius: 1rem;
+        margin: -0.35rem;
+      }
+      #talkie .receiving .ring-1 {
+        background-color: #4d3fff;
+        opacity: 0.4;
+      }
+      #talkie .receiving .ring-2 {
+        background-color: #6c3fff;
+        opacity: 0.4;
+      }
+      #talkie .receiving .ring-3 {
+        background-color: #8c3fff;
+        opacity: 0.4;
+      }
+      #talkie .receiving .ring-4 {
+        background-color: #a33fff;
+        opacity: 0.4;
+      }
+      #talkie .receiving .ring-5 {
+        background-color: #c23fff;
+        opacity: 0.4;
+      }
+      #talkie .receiving .ring-1.dot-1  { transform: rotate(0deg)   translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-2  { transform: rotate(15deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-3  { transform: rotate(30deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-4  { transform: rotate(45deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-5  { transform: rotate(60deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-6  { transform: rotate(75deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-7  { transform: rotate(90deg)  translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-8  { transform: rotate(105deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-9  { transform: rotate(120deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-10 { transform: rotate(135deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-11 { transform: rotate(150deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-12 { transform: rotate(165deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-13 { transform: rotate(180deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-14 { transform: rotate(195deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-15 { transform: rotate(210deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-16 { transform: rotate(225deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-17 { transform: rotate(240deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-18 { transform: rotate(255deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-19 { transform: rotate(270deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-20 { transform: rotate(285deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-21 { transform: rotate(300deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-22 { transform: rotate(315deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-23 { transform: rotate(330deg) translate(4.75rem); }
+      #talkie .receiving .ring-1.dot-24 { transform: rotate(345deg) translate(4.75rem); }
+
+      #talkie .receiving .ring-2.dot-1  { transform: rotate(0deg)   translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-2  { transform: rotate(15deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-3  { transform: rotate(30deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-4  { transform: rotate(45deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-5  { transform: rotate(60deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-6  { transform: rotate(75deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-7  { transform: rotate(90deg)  translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-8  { transform: rotate(105deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-9  { transform: rotate(120deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-10 { transform: rotate(135deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-11 { transform: rotate(150deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-12 { transform: rotate(165deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-13 { transform: rotate(180deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-14 { transform: rotate(195deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-15 { transform: rotate(210deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-16 { transform: rotate(225deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-17 { transform: rotate(240deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-18 { transform: rotate(255deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-19 { transform: rotate(270deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-20 { transform: rotate(285deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-21 { transform: rotate(300deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-22 { transform: rotate(315deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-23 { transform: rotate(330deg) translate(6.25rem); }
+      #talkie .receiving .ring-2.dot-24 { transform: rotate(345deg) translate(6.25rem); }
+
+      #talkie .receiving .ring-3.dot-1  { transform: rotate(0deg)   translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-2  { transform: rotate(15deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-3  { transform: rotate(30deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-4  { transform: rotate(45deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-5  { transform: rotate(60deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-6  { transform: rotate(75deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-7  { transform: rotate(90deg)  translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-8  { transform: rotate(105deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-9  { transform: rotate(120deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-10 { transform: rotate(135deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-11 { transform: rotate(150deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-12 { transform: rotate(165deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-13 { transform: rotate(180deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-14 { transform: rotate(195deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-15 { transform: rotate(210deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-16 { transform: rotate(225deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-17 { transform: rotate(240deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-18 { transform: rotate(255deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-19 { transform: rotate(270deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-20 { transform: rotate(285deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-21 { transform: rotate(300deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-22 { transform: rotate(315deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-23 { transform: rotate(330deg) translate(7.75rem); }
+      #talkie .receiving .ring-3.dot-24 { transform: rotate(345deg) translate(7.75rem); }
+
+      #talkie .receiving .ring-4.dot-1  { transform: rotate(0deg)   translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-2  { transform: rotate(15deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-3  { transform: rotate(30deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-4  { transform: rotate(45deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-5  { transform: rotate(60deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-6  { transform: rotate(75deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-7  { transform: rotate(90deg)  translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-8  { transform: rotate(105deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-9  { transform: rotate(120deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-10 { transform: rotate(135deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-11 { transform: rotate(150deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-12 { transform: rotate(165deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-13 { transform: rotate(180deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-14 { transform: rotate(195deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-15 { transform: rotate(210deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-16 { transform: rotate(225deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-17 { transform: rotate(240deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-18 { transform: rotate(255deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-19 { transform: rotate(270deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-20 { transform: rotate(285deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-21 { transform: rotate(300deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-22 { transform: rotate(315deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-23 { transform: rotate(330deg) translate(9.25rem); }
+      #talkie .receiving .ring-4.dot-24 { transform: rotate(345deg) translate(9.25rem); }
+
+      #talkie .receiving .ring-5.dot-1  { transform: rotate(0deg)   translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-2  { transform: rotate(15deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-3  { transform: rotate(30deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-4  { transform: rotate(45deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-5  { transform: rotate(60deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-6  { transform: rotate(75deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-7  { transform: rotate(90deg)  translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-8  { transform: rotate(105deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-9  { transform: rotate(120deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-10 { transform: rotate(135deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-11 { transform: rotate(150deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-12 { transform: rotate(165deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-13 { transform: rotate(180deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-14 { transform: rotate(195deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-15 { transform: rotate(210deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-16 { transform: rotate(225deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-17 { transform: rotate(240deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-18 { transform: rotate(255deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-19 { transform: rotate(270deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-20 { transform: rotate(285deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-21 { transform: rotate(300deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-22 { transform: rotate(315deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-23 { transform: rotate(330deg) translate(10.75rem); }
+      #talkie .receiving .ring-5.dot-24 { transform: rotate(345deg) translate(10.75rem); }
     </style>
   `,
   globalCss: `
@@ -185,4 +360,4 @@ var Talkie = GaiaComponent.register('vaani-talkie', {
 });
 
 
-module.exports = Talkie;
+export default Talkie;

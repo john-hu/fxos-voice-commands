@@ -71,7 +71,7 @@ var FirstTimeUse = GaiaComponent.register('vaani-first-time-use', {
         </div>
         <div class="step-2">
           <h3 class="title">Help the Community!</h3>
-          <p class="message">You can help us improve Vaani's speech recognition by reading sentances.</p>
+          <p class="message">You can help us improve Vaani's speech recognition by reading sentences.</p>
           <hr />
           <button class="btn">Ok</button>
         </div>
@@ -159,4 +159,4 @@ var FirstTimeUse = GaiaComponent.register('vaani-first-time-use', {
 });
 
 
-module.exports = FirstTimeUse;
+export default FirstTimeUse;

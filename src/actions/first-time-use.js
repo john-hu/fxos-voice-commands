@@ -1,10 +1,19 @@
+import Debug from 'debug';
 import AppStore from '../stores/app';
 import TalkieActions from './talkie';
 import ToolbarActions from './toolbar';
 
 
-var FirstTimeUseActions = {
-  advanceTour: function () {
+let debug = Debug('FirstTimeUseActions');
+
+
+class FirstTimeUseActions {
+  /**
+   * Advances the tour
+   */
+  static advanceTour () {
+    debug('advanceTour');
+
     var currentStep = AppStore.state.firstTimeUse.tour.current;
     var totalSteps = AppStore.state.firstTimeUse.tour.total;
     var toolbarActiveItem = 'none';
@@ -32,7 +41,7 @@ var FirstTimeUseActions = {
 
     AppStore.emitChange();
   }
-};
+}
 
 
-module.exports = FirstTimeUseActions;
+export default FirstTimeUseActions;

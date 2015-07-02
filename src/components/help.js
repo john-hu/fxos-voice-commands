@@ -32,4 +32,4 @@ var Help = GaiaComponent.register('vaani-help', {
 });
 
 
-module.exports = Help;
+export default Help;

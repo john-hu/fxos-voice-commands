@@ -23,7 +23,7 @@ var Community = GaiaComponent.register('vaani-community', {
     <div id="help">
       <gaia-dialog-alert>
         <h3>Help the Community</h3>
-        <p>You can help us improve Vaani's speech recognition by reading sentances.</p>
+        <p>You can help us improve Vaani's speech recognition by reading sentences.</p>
         <p>Record yourself reading a sentence. The recording will then be submitted over wifi.</p>
         <p>That's it! We appreciate the help!</p>
         <p>(coming soon)</p>
@@ -33,4 +33,4 @@ var Community = GaiaComponent.register('vaani-community', {
 });
 
 
-module.exports = Community;
+export default Community;

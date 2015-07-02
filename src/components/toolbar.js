@@ -101,4 +101,4 @@ var Toolbar = GaiaComponent.register('vaani-toolbar', {
 });
 
 
-module.exports = Toolbar;
+export default Toolbar;

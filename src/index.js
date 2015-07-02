@@ -1,4 +1,5 @@
 /* global document */
+import Debug from 'debug';
 import AppStore from './stores/app';
 import DisplayActions from './actions/display';
 import './components/community';
@@ -7,6 +8,11 @@ import './components/first-time-use';
 import './components/help';
 import './components/talkie';
 import './components/toolbar';
+import './components/standing-by';
+
+
+window.myDebug = Debug;
+
 
 /*
  * first time use stuff

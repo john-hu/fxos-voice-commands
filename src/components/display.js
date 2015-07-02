@@ -35,4 +35,4 @@ var Display = GaiaComponent.register('vaani-display', {
 });
 
 
-module.exports = Display;
+export default Display;
