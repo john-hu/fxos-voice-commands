@@ -32,22 +32,25 @@ var VoiceCommandsInterface = {
    * Initialize
    */
   init: function() {
-    debug('VoiceCommandsInterface::init');
+    window.addEventListener('applicationready', function() {
+      debug('VoiceCommandsInterface::init');
 
-    // Grammar list needs to happen first. Without a grammar list the speech
-    // recognition object has nothing to initialize with.
-    this.createGrammarList();
-    this.createSpeechRecognition();
+      this.statusText = document.getElementById('status-text');
+      this.statusIcon = document.getElementById('status-icon');
+      this.commandsList = document.getElementById('commands-list');
+      this.commandList = document.getElementById('command-list');
+      this.listeningAnimation = document.getElementById('listening-animation');
 
-    this.speakButton = document.getElementById('microphone-button');
-    this.speakButton.onclick = this.handleSpeakButtonClick.bind(this);
+      // Grammar list needs to happen first. Without a grammar list the speech
+      // recognition object has nothing to initialize with.
+      this.createGrammarList();
+      this.createSpeechRecognition();
 
-    this.statusText = document.getElementById('status-text');
-    this.statusIcon = document.getElementById('status-icon');
-    this.commandsList = document.getElementById('commands-list');
-    this.listeningAnimation = document.getElementById('listening-animation');
+      this.speakButton = document.getElementById('microphone-button');
+      this.speakButton.onclick = this.handleSpeakButtonClick.bind(this);
 
-    this.registerActivityHandler();
+      this.registerActivityHandler();
+    }.bind(this));
   },
 
   /**
@@ -58,6 +61,37 @@ var VoiceCommandsInterface = {
 
     // For now, no special configuration is needed.
     this.speechRecognition = new SpeechRecognition();
+  },
+
+  createCommandItem: function(manifest, command) {
+    var li = document.createElement('li');
+    li.textContent = command + ' (' + manifest.name + ')';
+    this.commandList.appendChild(li);
+  },
+
+  collectActivity: function(manifest, container) {
+    for(var act in manifest.activities) {
+      if (act.indexOf('/') === -1 && container.indexOf(act) === -1 &&
+          act.indexOf('bluetooth') === -1 && act.indexOf('openmobile') === -1 &&
+          act.substring(0, 3) !== 'set' && act.substring(0, 3) !== 'moz') {
+        var re = /[-_]/gi;
+        act = act.replace(re, ' ');
+        container.push(act);
+        this.createCommandItem(manifest, act);
+      }
+    }
+  },
+
+  createActivityGrammar: function() {
+    var activities = [];
+    for(var url in window.applications.installedApps) {
+      console.log('process url', url);
+      var appManifest = window.applications.installedApps[url].manifest;
+      this.collectActivity(appManifest, activities);
+    }
+    activities.sort();
+    this.activities = activities;
+    return activities.join(' | ');
   },
 
   /**
@@ -80,8 +114,8 @@ var VoiceCommandsInterface = {
                   'whats my battery level | ' +
                   'open my calendar | ' +
                   'open my email | ' +
-                  'open my messages ;';
-
+                  'open my messages | ' +
+                  this.createActivityGrammar() + ' ;';
     this.speechGrammarList.addFromString(grammar, 1);
   },
 
@@ -98,6 +132,7 @@ var VoiceCommandsInterface = {
   },
 
   handleSpeakButtonClick: function() {
+    console.log('speak');
     this.updateStatusIcon('fxos-logo');
     // XXXAus: Should load this via l10n.
     this.say('How may I help you?', true);
@@ -412,6 +447,12 @@ var CommandInterpreter = {
       }
 
       return;
+    }
+
+    if (VoiceCommandsInterface.activities.indexOf(aTranscript)) {
+      new MozActivity({
+        name: aTranscript
+      });
     }
 
     debug('No command found for ' + aTranscript);
